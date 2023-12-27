@@ -54,18 +54,24 @@ function showMovies(data){
 }
 
 function showMovieDetail(movie) {
-    const { title, poster_path, genre, release_date, vote_average, overview } = movie;
+    const { poster_path, title,  popularity, release_date, vote_average, overview, } = movie;
     movieDetail.innerHTML = `
+    
+    <div id="movie-detail" >
         <span class="close-btn" onclick="closeMovieDetail()">X</span>
+        
+        <img class="image" src="${img_url + poster_path}" alt="${title}">
         <h2>${title}</h2>
-        <img src="${img_url + poster_path}" alt="${title}">
-        <h3>Genre:</h3>
-        ${genre}
+        <h3>Popularity:</h3>
+        ${popularity}
         <p>Release:</p>
         ${release_date}
         <p>Rating: ${vote_average}</p>
-        <h2>Story</h2>
+
+        <h2 class="story">Story</h2>
         ${overview}
+        </div>
+       
     `;
     movieDetail.style.display = 'block';
 }
