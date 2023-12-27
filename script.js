@@ -94,30 +94,6 @@ function closeMovieDetail() {
     movieDetail.style.display = 'none';
 }
 
-// function loadSimilarMovies(movieId, page) {
-//     fetch(`https://api.themoviedb.org/3/movie/${movieId}/similar?${api_key}&page=${page}`)
-//     .then(response => response.json())
-//     .then(data => {
-//         // Here you can extract similar movies and update your UI
-//         const similarMovies = data.results;
-//         // Update your similarMoviesHTML and other related content here
-
-//         // Update the UI (for example, only update the similar movies list)
-//         const similarMoviesHTML = similarMovies.map(similarMovie => `
-//             <!-- Your HTML for each similar movie -->
-//         `).join('');
-
-//         // Update the similar movies list in your movieDetail element
-//         const similarMoviesList = document.querySelector('.similar-movies-list');
-//         similarMoviesList.innerHTML = similarMoviesHTML;
-//     });
-// }
-
-
-
-
-
-
 
 
 
