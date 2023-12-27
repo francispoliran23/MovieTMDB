@@ -17,9 +17,9 @@ getMovies(api_url);
 function getMovies(url){
 
     fetch(url).then(res => res.json()).then(data =>{
-        console.log(data.results)   
+        // console.log(data.results)   
         showMovies(data.results);
-    })
+    });
 
 
 }
@@ -45,65 +45,81 @@ function showMovies(data){
 
         </div>
         `
-        movieEl.addEventListener('click', () => showMovieDetail(movie));
+        movieEl.addEventListener('click', () => showMovieDetail(movie.id));
 
         main.appendChild(movieEl); //add new elements
-    })
-
-
-}
-
-function showMovieDetail(movie) {
-    const { poster_path, title,  popularity, release_date, vote_average, overview, id} = movie;
-
-    fetch(`https://api.themoviedb.org/3/movie/${id}/similar?${api_key}`)
-    .then(response => response.json())
-    .then(data => {
-        const similarMovies = data.results;
-        
-        // Create a string of similar movie details
-        const similarMoviesHTML = similarMovies.map(similarMovie => `
-            <div class="similar-movie">
-                <img src="${img_url + similarMovie.poster_path}" alt="${similarMovie.title}">
-                <h4>${similarMovie.title}</h4>
-            </div>
-        `).join('');
-
-
-         movieDetail.innerHTML = `
-    
-         <div id="movie-detail" >
-        <span class="close-btn" onclick="closeMovieDetail()">X</span>
-        
-        <img class="image" src="${img_url + poster_path}" alt="${title}">
-        <h2>${title}</h2>
-        <h3>Popularity:</h3>
-        ${popularity}
-        <p>Release:</p>
-        ${release_date}
-        <p>Rating: ${vote_average}</p>
-
-        <h2 class="story">Story</h2>
-        ${overview}
-        </div>
-        </div>
-            <div class="similar-movies">
-                <h2>Similar Movies</h2>
-                <div class="similar-movies-list">
-                    ${similarMoviesHTML}
-                </div>
-            </div>
-    `;
-    movieDetail.style.display = 'block';
     });
+
+
 }
 
-// Function to close movie detail view
+function showMovieDetail(id) {
+    fetch(`https://api.themoviedb.org/3/movie/${id}?${api_key}`)
+        .then(response => response.json())
+        .then(movie => {
+            fetch(`https://api.themoviedb.org/3/movie/${id}/similar?${api_key}`)
+                .then(response => response.json())
+                .then(data => {
+                    const similarMovies = data.results;
+                    const similarMoviesHTML = similarMovies.map(similarMovie => `
+                        <div class="similar-movie" onclick="showMovieDetail(${similarMovie.id})">
+                            <img src="${img_url + similarMovie.poster_path}" alt="${similarMovie.title}">
+                            <h4>${similarMovie.title}</h4>
+                        </div>
+                    `).join('');
+
+                    movieDetail.innerHTML = `
+                        <span class="close-btn" onclick="closeMovieDetail()">X</span>
+                        <img class="image" src="${img_url + movie.poster_path}" alt="${movie.title}">
+                        <h2>${movie.title}</h2>
+                        <h3>Popularity:</h3>
+                        ${movie.popularity}
+                        <p>Release:</p>
+                        ${movie.release_date}
+                        <p>Rating: ${movie.vote_average}</p>
+                        <h2 class="story">Story</h2>
+                        ${movie.overview}
+                        <div class="similar-movies">
+                            <h2>Similar Movies</h2>
+                            <div class="similar-movies-list">
+                                ${similarMoviesHTML}
+                            </div>
+                        </div>`;
+                    movieDetail.style.display = 'block';
+                });
+        });
+}
+
 function closeMovieDetail() {
     movieDetail.style.display = 'none';
-
-
 }
+
+// function loadSimilarMovies(movieId, page) {
+//     fetch(`https://api.themoviedb.org/3/movie/${movieId}/similar?${api_key}&page=${page}`)
+//     .then(response => response.json())
+//     .then(data => {
+//         // Here you can extract similar movies and update your UI
+//         const similarMovies = data.results;
+//         // Update your similarMoviesHTML and other related content here
+
+//         // Update the UI (for example, only update the similar movies list)
+//         const similarMoviesHTML = similarMovies.map(similarMovie => `
+//             <!-- Your HTML for each similar movie -->
+//         `).join('');
+
+//         // Update the similar movies list in your movieDetail element
+//         const similarMoviesList = document.querySelector('.similar-movies-list');
+//         similarMoviesList.innerHTML = similarMoviesHTML;
+//     });
+// }
+
+
+
+
+
+
+
+
 
 function getColor(vote) {
     if(vote>= 8){
