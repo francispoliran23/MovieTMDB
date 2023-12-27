@@ -10,7 +10,7 @@ const searchURL = base_url + '/search/movie?'+ api_key;
 const main = document.getElementById('main');
 const form =  document.getElementById('form');
 const search = document.getElementById('search');
-
+const movieDetail = document.getElementById('movie-detail');
 
 getMovies(api_url);
 
@@ -45,9 +45,34 @@ function showMovies(data){
 
         </div>
         `
+        movieEl.addEventListener('click', () => showMovieDetail(movie));
 
         main.appendChild(movieEl); //add new elements
     })
+
+
+}
+
+function showMovieDetail(movie) {
+    const { title, poster_path, genre, release_date, vote_average, overview } = movie;
+    movieDetail.innerHTML = `
+        <span class="close-btn" onclick="closeMovieDetail()">X</span>
+        <h2>${title}</h2>
+        <img src="${img_url + poster_path}" alt="${title}">
+        <h3>Genre:</h3>
+        ${genre}
+        <p>Release:</p>
+        ${release_date}
+        <p>Rating: ${vote_average}</p>
+        <h2>Story</h2>
+        ${overview}
+    `;
+    movieDetail.style.display = 'block';
+}
+
+// Function to close movie detail view
+function closeMovieDetail() {
+    movieDetail.style.display = 'none';
 
 
 }
