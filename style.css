@@ -41,6 +41,22 @@ header{
 .search::placeholder{
     color: #7378c5;
 }
+.search-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+  
+}
+
+.search-icon {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #000000; /* Optional: Change color as needed */
+    pointer-events: none;
+}
+
 
 main{
     display:flex;
