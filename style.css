@@ -162,7 +162,9 @@ main{
 #movie-detail .close-btn:hover {
     color: #ff0000; 
 }
-
+.image2{
+    cursor: pointer;
+}
 
 .similar-movies {
     margin-top: 20px;

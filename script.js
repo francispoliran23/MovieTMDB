@@ -63,7 +63,7 @@ function showMovieDetail(id) {
                     const similarMovies = data.results;
                     const similarMoviesHTML = similarMovies.map(similarMovie => `
                         <div class="similar-movie" onclick="showMovieDetail(${similarMovie.id})">
-                            <img src="${img_url + similarMovie.poster_path}" alt="${similarMovie.title}">
+                            <img class="image2" src="${img_url + similarMovie.poster_path}" alt="${similarMovie.title}">
                             <h4>${similarMovie.title}</h4>
                         </div>
                     `).join('');
