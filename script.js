@@ -54,10 +54,25 @@ function showMovies(data){
 }
 
 function showMovieDetail(movie) {
-    const { poster_path, title,  popularity, release_date, vote_average, overview, } = movie;
-    movieDetail.innerHTML = `
+    const { poster_path, title,  popularity, release_date, vote_average, overview, id} = movie;
+
+    fetch(`https://api.themoviedb.org/3/movie/${id}/similar?${api_key}`)
+    .then(response => response.json())
+    .then(data => {
+        const similarMovies = data.results;
+        
+        // Create a string of similar movie details
+        const similarMoviesHTML = similarMovies.map(similarMovie => `
+            <div class="similar-movie">
+                <img src="${img_url + similarMovie.poster_path}" alt="${similarMovie.title}">
+                <h4>${similarMovie.title}</h4>
+            </div>
+        `).join('');
+
+
+         movieDetail.innerHTML = `
     
-    <div id="movie-detail" >
+         <div id="movie-detail" >
         <span class="close-btn" onclick="closeMovieDetail()">X</span>
         
         <img class="image" src="${img_url + poster_path}" alt="${title}">
@@ -71,9 +86,16 @@ function showMovieDetail(movie) {
         <h2 class="story">Story</h2>
         ${overview}
         </div>
-       
+        </div>
+            <div class="similar-movies">
+                <h2>Similar Movies</h2>
+                <div class="similar-movies-list">
+                    ${similarMoviesHTML}
+                </div>
+            </div>
     `;
     movieDetail.style.display = 'block';
+    });
 }
 
 // Function to close movie detail view

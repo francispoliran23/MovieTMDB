@@ -162,3 +162,28 @@ main{
 #movie-detail .close-btn:hover {
     color: #ff0000; 
 }
+
+
+.similar-movies {
+    margin-top: 20px;
+}
+
+.similar-movies h2 {
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+.similar-movies-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px; /* Space between similar movies */
+}
+
+.similar-movie img {
+    width: 100px; /* Adjust width as needed */
+    height: auto;
+}
+
+.similar-movie h4 {
+    margin-top: 10px;
+}
